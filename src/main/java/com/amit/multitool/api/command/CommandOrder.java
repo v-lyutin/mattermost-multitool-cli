@@ -12,7 +12,9 @@ public enum CommandOrder {
 
     SEND_OUT_MESSAGES_TO_USERS_WITHOUT_MFA_COMMAND("4"),
 
-    UPLOAD_DIRECT_CHANNEL_MESSAGES_COMMAND("5");
+    UPLOAD_DIRECT_CHANNEL_MESSAGES_COMMAND("5"),
+
+    DEACTIVATE_USER_ACCOUNTS("6");
 
     private final String ordinalNumber;
 

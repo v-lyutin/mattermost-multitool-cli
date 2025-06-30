@@ -11,10 +11,10 @@ import java.util.Set;
 public interface MattermostApiV4 {
 
     @RequestLine(value = "GET /api/v4/channels/{channelId}/posts?since={since}")
-    ChannelPostsResponse getChannelPosts(@Param("channelId") String channelId, @Param("since") Long since);
+    ChannelPostsResponse getChannelPosts(@Param(value = "channelId") String channelId, @Param(value = "since") Long since);
 
     @RequestLine(value = "GET /api/v4/users?in_team={teamId}&page={page}")
-    Set<UserResponse> getUsers(@Param("teamId") String teamId, @Param("page") Integer page);
+    Set<UserResponse> getUsers(@Param(value = "teamId") String teamId, @Param(value = "page") Integer page);
 
     @RequestLine(value = "GET /api/v4/users/me")
     UserResponse getMe();
@@ -24,5 +24,8 @@ public interface MattermostApiV4 {
 
     @RequestLine(value = "POST /api/v4/posts")
     PostResponse createPost(PostRequest postRequest);
+
+    @RequestLine(value = "DELETE /api/v4/users/{userId}")
+    StatusResponse deactivateUserAccount(@Param(value = "userId") String userId);
 
 }

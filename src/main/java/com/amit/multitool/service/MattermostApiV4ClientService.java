@@ -21,4 +21,6 @@ public interface MattermostApiV4ClientService {
 
     Optional<PostResponse> createPost(PostRequest postRequest);
 
+    Optional<StatusResponse> deactivateUserAccount(String userId);
+
 }

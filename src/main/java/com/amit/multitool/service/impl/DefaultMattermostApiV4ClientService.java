@@ -58,6 +58,11 @@ public final class DefaultMattermostApiV4ClientService implements MattermostApiV
         return this.executeRequest(() -> this.mattermostClient.getApi().createPost(postRequest));
     }
 
+    @Override
+    public Optional<StatusResponse> deactivateUserAccount(final String userId) {
+        return this.executeRequest(() -> this.mattermostClient.getApi().deactivateUserAccount(userId));
+    }
+
     private <T> Optional<T> executeRequest(final Supplier<T> apiCall) {
         try {
             final T result = apiCall.get();
