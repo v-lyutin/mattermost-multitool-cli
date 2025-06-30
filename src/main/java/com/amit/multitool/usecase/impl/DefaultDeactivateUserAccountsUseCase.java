@@ -39,7 +39,7 @@ public final class DefaultDeactivateUserAccountsUseCase implements DeactivateUse
                                 ThreadUtils.sleep();
                                 final Optional<StatusResponse> statusResponse = this.mattermostApiV4ClientService.deactivateUserAccount(user.id());
                                 statusResponse.ifPresentOrElse(
-                                        response -> LOGGER.info("User with email '{}' deactivated", email),
+                                        status -> LOGGER.info("User with email '{}' deactivated with status: {}", email, status.status()),
                                         () -> LOGGER.warn("Failed to deactivate user with email '{}'", email)
                                 );
                             },
