@@ -1,6 +1,7 @@
 package com.amit.multitool.service;
 
 import com.amit.multitool.config.MattermostCredentials;
+import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
 
@@ -22,5 +23,7 @@ public interface MattermostApiV4ClientService {
     Optional<PostResponse> createPost(PostRequest postRequest);
 
     Optional<StatusResponse> deactivateUserAccount(String userId);
+
+    Optional<StatusResponse> inviteUsersToTeamByEmail(EmailsRequest emailsRequest);
 
 }

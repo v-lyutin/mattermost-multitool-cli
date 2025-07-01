@@ -31,6 +31,10 @@ public final class MattermostClient {
         this.refreshFeignClient();
     }
 
+    public String getTeamId() {
+        return this.mattermostCredentials.teamId();
+    }
+
     public MattermostApiV4 getApi() {
         return this.mattermostApiV4;
     }

@@ -1,5 +1,6 @@
 package com.amit.multitool.client;
 
+import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
 import feign.Param;
@@ -27,5 +28,8 @@ public interface MattermostApiV4 {
 
     @RequestLine(value = "DELETE /api/v4/users/{userId}")
     StatusResponse deactivateUserAccount(@Param(value = "userId") String userId);
+
+    @RequestLine(value = "POST /api/v4/teams/{teamId}/invite/email")
+    StatusResponse inviteUsersToTeamByEmail(@Param(value = "teamId") String teamId, EmailsRequest emailsRequest);
 
 }

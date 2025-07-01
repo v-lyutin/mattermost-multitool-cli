@@ -2,6 +2,7 @@ package com.amit.multitool.service.impl;
 
 import com.amit.multitool.client.MattermostClient;
 import com.amit.multitool.config.MattermostCredentials;
+import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
 import com.amit.multitool.service.MattermostApiV4ClientService;
@@ -61,6 +62,12 @@ public final class DefaultMattermostApiV4ClientService implements MattermostApiV
     @Override
     public Optional<StatusResponse> deactivateUserAccount(final String userId) {
         return this.executeRequest(() -> this.mattermostClient.getApi().deactivateUserAccount(userId));
+    }
+
+    @Override
+    public Optional<StatusResponse> inviteUsersToTeamByEmail(final EmailsRequest emailsRequest) {
+        final String teamId = this.mattermostClient.getTeamId();
+        return this.executeRequest(() -> this.mattermostClient.getApi().inviteUsersToTeamByEmail(teamId, emailsRequest));
     }
 
     private <T> Optional<T> executeRequest(final Supplier<T> apiCall) {
