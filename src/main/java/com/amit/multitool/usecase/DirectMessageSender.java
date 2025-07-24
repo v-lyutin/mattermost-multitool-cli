@@ -5,7 +5,6 @@ import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.ChannelResponse;
 import com.amit.multitool.domain.web.response.PostResponse;
 import com.amit.multitool.service.MattermostApiV4ClientService;
-import com.amit.multitool.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ public final class DirectMessageSender {
         final Optional<PostResponse> postResponse = mattermostApiV4ClientService.createPost(new PostRequest(channel.get().id(), messageTemplate));
         if (postResponse.isPresent()) {
             LOGGER.info("Message sent to user: {}", receiver.email());
-            ThreadUtils.sleep();
             return;
         }
         LOGGER.error("Failed to send message to user: {}", receiver.email());

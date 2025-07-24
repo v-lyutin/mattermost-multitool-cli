@@ -7,9 +7,11 @@ import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import feign.FeignException;
+import io.github.resilience4j.ratelimiter.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,9 +25,13 @@ public final class DefaultMattermostApiV4ClientService implements MattermostApiV
 
     private final MattermostClient mattermostClient;
 
+    @Qualifier(value = "mattermostRateLimiter")
+    private final RateLimiter rateLimiter;
+
     @Autowired
-    public DefaultMattermostApiV4ClientService(final MattermostClient mattermostClient) {
+    public DefaultMattermostApiV4ClientService(final MattermostClient mattermostClient, final RateLimiter rateLimiter) {
         this.mattermostClient = mattermostClient;
+        this.rateLimiter = rateLimiter;
     }
 
     @Override
@@ -72,6 +78,7 @@ public final class DefaultMattermostApiV4ClientService implements MattermostApiV
 
     private <T> Optional<T> executeRequest(final Supplier<T> apiCall) {
         try {
+            RateLimiter.waitForPermission(this.rateLimiter);
             final T result = apiCall.get();
             return Optional.ofNullable(result);
         } catch (final FeignException exception) {

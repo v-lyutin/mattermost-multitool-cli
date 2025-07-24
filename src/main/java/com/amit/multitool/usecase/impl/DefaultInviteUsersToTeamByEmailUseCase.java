@@ -4,7 +4,6 @@ import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.response.StatusResponse;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.usecase.InviteUsersToTeamByEmailUseCase;
-import com.amit.multitool.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class DefaultInviteUsersToTeamByEmailUseCase implements InviteUsersToTeam
                     response -> LOGGER.info("Successfully invited '{}' to team with status: {}", email, response.status()),
                     () -> LOGGER.warn("Failed to invite user with email '{}' to team", email)
             );
-            ThreadUtils.sleep();
         });
     }
 

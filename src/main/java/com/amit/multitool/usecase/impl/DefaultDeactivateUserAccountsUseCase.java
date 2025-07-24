@@ -4,7 +4,6 @@ import com.amit.multitool.domain.web.response.StatusResponse;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.service.UserService;
 import com.amit.multitool.usecase.DeactivateUserAccountsUseCase;
-import com.amit.multitool.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ public final class DefaultDeactivateUserAccountsUseCase implements DeactivateUse
             this.userService.findByEmail(email)
                     .ifPresentOrElse(
                             user -> {
-                                ThreadUtils.sleep();
                                 final Optional<StatusResponse> statusResponse = this.mattermostApiV4ClientService.deactivateUserAccount(user.id());
                                 statusResponse.ifPresentOrElse(
                                         status -> LOGGER.info("User with email '{}' deactivated with status: {}", email, status.status()),

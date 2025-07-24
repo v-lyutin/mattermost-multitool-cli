@@ -5,7 +5,6 @@ import com.amit.multitool.domain.web.response.ChannelPostsResponse;
 import com.amit.multitool.domain.web.response.PostResponse;
 import com.amit.multitool.mapper.MattermostModelMapper;
 import com.amit.multitool.service.MattermostApiV4ClientService;
-import com.amit.multitool.utils.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +69,6 @@ public final class ChannelMessagesUploader {
             if (!foundInRange || lastCreateAt >= endTimestamp) {
                 hasMore = false;
             }
-            ThreadUtils.sleep();
         }
         LOGGER.info("Total posts: {}", sortedPostsStorage.size());
         LOGGER.info("Total threads: {}", sortedPostsStorage.stream().filter(Post::isRoot).count());
