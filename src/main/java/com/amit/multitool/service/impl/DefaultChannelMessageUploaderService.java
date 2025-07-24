@@ -1,37 +1,39 @@
-package com.amit.multitool.usecase;
+package com.amit.multitool.service.impl;
 
 import com.amit.multitool.domain.model.Post;
 import com.amit.multitool.domain.web.response.ChannelPostsResponse;
 import com.amit.multitool.domain.web.response.PostResponse;
 import com.amit.multitool.mapper.MattermostModelMapper;
+import com.amit.multitool.service.ChannelMessageUploaderService;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
-@Component
-public final class ChannelMessagesUploader {
+@Service
+public final class DefaultChannelMessageUploaderService implements ChannelMessageUploaderService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChannelMessagesUploader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultChannelMessageUploaderService.class);
 
     private final MattermostApiV4ClientService mattermostApiV4ClientService;
 
     private final MattermostModelMapper mattermostModelMapper;
 
     @Autowired
-    public ChannelMessagesUploader(final MattermostApiV4ClientService mattermostApiV4ClientService,
-                                   final MattermostModelMapper mattermostModelMapper) {
+    public DefaultChannelMessageUploaderService(final MattermostApiV4ClientService mattermostApiV4ClientService,
+                                                final MattermostModelMapper mattermostModelMapper) {
         this.mattermostApiV4ClientService = mattermostApiV4ClientService;
         this.mattermostModelMapper = mattermostModelMapper;
     }
 
-    public Set<Post> uploadChannelMessagesOverTimeRange(final String channelId, final long startTimestamp, final long endTimestamp) {
+    @Override
+    public Set<Post> uploadChannelMessagesOverTimeRange(String channelId, long startTimestamp, long endTimestamp) {
         final Set<Post> sortedPostsStorage = new TreeSet<>();
         long since = startTimestamp;
         long previousSince = Long.MIN_VALUE;

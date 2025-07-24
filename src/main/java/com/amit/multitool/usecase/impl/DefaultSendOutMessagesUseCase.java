@@ -1,9 +1,9 @@
 package com.amit.multitool.usecase.impl;
 
 import com.amit.multitool.domain.web.response.UserResponse;
+import com.amit.multitool.service.DirectMessageSenderService;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.service.UserService;
-import com.amit.multitool.usecase.DirectMessageSender;
 import com.amit.multitool.usecase.SendOutMessagesUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,16 +20,16 @@ public final class DefaultSendOutMessagesUseCase implements SendOutMessagesUseCa
 
     private final MattermostApiV4ClientService mattermostApiV4ClientService;
 
-    private final DirectMessageSender directMessageSender;
+    private final DirectMessageSenderService directMessageSenderService;
 
     private final UserService userService;
 
     @Autowired
     public DefaultSendOutMessagesUseCase(final MattermostApiV4ClientService mattermostApiV4ClientService,
-                                         final DirectMessageSender directMessageSender,
+                                         final DirectMessageSenderService directMessageSenderService,
                                          final UserService userService) {
         this.mattermostApiV4ClientService = mattermostApiV4ClientService;
-        this.directMessageSender = directMessageSender;
+        this.directMessageSenderService = directMessageSenderService;
         this.userService = userService;
     }
 
@@ -47,7 +47,7 @@ public final class DefaultSendOutMessagesUseCase implements SendOutMessagesUseCa
                 .map(userService::findByEmail)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(receiver -> this.directMessageSender.sendMessageToUser(sender.id(), receiver, messageTemplate));
+                .forEach(receiver -> this.directMessageSenderService.sendMessageToUser(sender.id(), receiver, messageTemplate));
     }
 
 }

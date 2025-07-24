@@ -2,9 +2,9 @@ package com.amit.multitool.usecase.impl;
 
 import com.amit.multitool.domain.model.Post;
 import com.amit.multitool.domain.model.User;
+import com.amit.multitool.service.ChannelMessageUploaderService;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.service.UserService;
-import com.amit.multitool.usecase.ChannelMessagesUploader;
 import com.amit.multitool.usecase.UploadDirectChannelMessagesUseCase;
 import com.amit.multitool.utils.PostCsvWriter;
 import org.slf4j.Logger;
@@ -23,16 +23,16 @@ public final class DefaultUploadDirectChannelMessagesUseCase implements UploadDi
 
     private final MattermostApiV4ClientService mattermostApiV4ClientService;
 
-    private final ChannelMessagesUploader channelMessagesUploader;
+    private final ChannelMessageUploaderService channelMessageUploaderService;
 
     private final UserService userService;
 
     @Autowired
     public DefaultUploadDirectChannelMessagesUseCase(final MattermostApiV4ClientService mattermostApiV4ClientService,
-                                                     final ChannelMessagesUploader channelMessagesUploader,
+                                                     final ChannelMessageUploaderService channelMessageUploaderService,
                                                      final UserService userService) {
         this.mattermostApiV4ClientService = mattermostApiV4ClientService;
-        this.channelMessagesUploader = channelMessagesUploader;
+        this.channelMessageUploaderService = channelMessageUploaderService;
         this.userService = userService;
     }
 
@@ -69,7 +69,7 @@ public final class DefaultUploadDirectChannelMessagesUseCase implements UploadDi
         this.mattermostApiV4ClientService.createDirectMessageChannel(subject.id(), recipient.id())
                 .ifPresentOrElse(
                         channel -> {
-                            final Set<Post> posts = this.channelMessagesUploader.uploadChannelMessagesOverTimeRange(channel.id(), startTimestamp, endTimestamp);
+                            final Set<Post> posts = this.channelMessageUploaderService.uploadChannelMessagesOverTimeRange(channel.id(), startTimestamp, endTimestamp);
                             final String fileName = String.format("%s_%s", subject.username(), recipient.username());
                             PostCsvWriter.writePostsToCsv(posts, fileName);
                         },

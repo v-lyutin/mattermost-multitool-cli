@@ -1,9 +1,9 @@
 package com.amit.multitool.usecase.impl;
 
 import com.amit.multitool.domain.model.User;
+import com.amit.multitool.service.DirectMessageSenderService;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.service.UserService;
-import com.amit.multitool.usecase.DirectMessageSender;
 import com.amit.multitool.usecase.SendOutMessagesToUsersWithoutMfaUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +19,16 @@ public final class DefaultSendOutMessagesToUsersWithoutMfaUseCase implements Sen
 
     private final MattermostApiV4ClientService mattermostApiV4ClientService;
 
-    private final DirectMessageSender directMessageSender;
+    private final DirectMessageSenderService directMessageSenderService;
 
     private final UserService userService;
 
     @Autowired
     public DefaultSendOutMessagesToUsersWithoutMfaUseCase(final MattermostApiV4ClientService mattermostApiClientService,
-                                                          final DirectMessageSender directMessageSender,
+                                                          final DirectMessageSenderService directMessageSenderService,
                                                           final UserService userService) {
         this.mattermostApiV4ClientService = mattermostApiClientService;
-        this.directMessageSender = directMessageSender;
+        this.directMessageSenderService = directMessageSenderService;
         this.userService = userService;
     }
 
@@ -40,7 +40,7 @@ public final class DefaultSendOutMessagesToUsersWithoutMfaUseCase implements Sen
             return;
         }
         this.mattermostApiV4ClientService.getMe().ifPresentOrElse(
-                sender -> users.forEach(user -> this.directMessageSender.sendMessageToUser(sender.id(), user, messageTemplate)),
+                sender -> users.forEach(user -> this.directMessageSenderService.sendMessageToUser(sender.id(), user, messageTemplate)),
                 () -> LOGGER.error("Your profile was not found")
         );
     }
