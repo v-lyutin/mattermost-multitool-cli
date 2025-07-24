@@ -31,6 +31,10 @@ public final class MattermostClient {
         this.refreshFeignClient();
     }
 
+    public boolean isMattermostCredentialsPresent() {
+        return this.mattermostCredentials != null;
+    }
+
     public String getTeamId() {
         return this.mattermostCredentials.teamId();
     }

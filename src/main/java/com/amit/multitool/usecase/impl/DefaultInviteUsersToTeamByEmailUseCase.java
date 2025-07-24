@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class DefaultInviteUsersToTeamByEmailUseCase implements InviteUsersToTeamByEmailUseCase {
+public final class DefaultInviteUsersToTeamByEmailUseCase implements InviteUsersToTeamByEmailUseCase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultInviteUsersToTeamByEmailUseCase.class);
 

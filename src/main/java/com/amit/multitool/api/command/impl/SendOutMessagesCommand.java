@@ -5,13 +5,14 @@ import com.amit.multitool.api.command.CommandOrder;
 import com.amit.multitool.usecase.SendOutMessagesUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.FileReaderUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public final class SendOutMessagesCommand implements Command {
+public class SendOutMessagesCommand implements Command {
 
     private static final String COMMAND_DESCRIPTION = "Send out messages";
 
@@ -27,6 +28,7 @@ public final class SendOutMessagesCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String receiverEmailsFilePath = ConsoleInputUtils.inputValue(RECEIVER_EMAILS_FILE_PATH_REQUEST);
         final String messageTemplateFilePath = ConsoleInputUtils.inputValue(MESSAGE_TEMPLATE_FILE_PATH_REQUEST);

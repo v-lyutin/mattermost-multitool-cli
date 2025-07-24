@@ -5,6 +5,7 @@ import com.amit.multitool.api.command.CommandOrder;
 import com.amit.multitool.usecase.InviteUsersToTeamByEmailUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.FileReaderUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ public class InviteUsersToTeamByEmailCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String emailsFilePath = ConsoleInputUtils.inputValue(USER_EMAILS_FILE_PATH_REQUEST);
         final List<String> emails = FileReaderUtils.readEmails(emailsFilePath);

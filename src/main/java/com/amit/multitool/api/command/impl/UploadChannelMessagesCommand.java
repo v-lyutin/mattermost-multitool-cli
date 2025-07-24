@@ -5,11 +5,12 @@ import com.amit.multitool.api.command.CommandOrder;
 import com.amit.multitool.usecase.UploadChannelMessagesUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.DateTimeUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class UploadChannelMessagesCommand implements Command {
+public class UploadChannelMessagesCommand implements Command {
 
     private static final String COMMAND_DESCRIPTION = "Receive channel messages included in the time range";
 
@@ -27,6 +28,7 @@ public final class UploadChannelMessagesCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String channelId = ConsoleInputUtils.inputValue(CHANNEL_ID_REQUEST_PROMPT);
         final long startTimestamp = DateTimeUtils.getDateTimeFromUser(START_TIMESTAMP_REQUEST);

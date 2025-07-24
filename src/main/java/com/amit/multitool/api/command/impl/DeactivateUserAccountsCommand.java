@@ -5,13 +5,14 @@ import com.amit.multitool.api.command.CommandOrder;
 import com.amit.multitool.usecase.DeactivateUserAccountsUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.FileReaderUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public final class DeactivateUserAccountsCommand implements Command {
+public class DeactivateUserAccountsCommand implements Command {
 
     private static final String COMMAND_DESCRIPTION = "Deactivate user accounts";
 
@@ -25,6 +26,7 @@ public final class DeactivateUserAccountsCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String receiverEmailsFilePath = ConsoleInputUtils.inputValue(USER_EMAILS_FILE_PATH_REQUEST);
         final List<String> emails = FileReaderUtils.readEmails(receiverEmailsFilePath);

@@ -5,11 +5,12 @@ import com.amit.multitool.api.command.CommandOrder;
 import com.amit.multitool.usecase.SendOutMessagesToUsersWithoutMfaUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.FileReaderUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class SendOutMessagesToUsersWithoutMfaCommand implements Command {
+public class SendOutMessagesToUsersWithoutMfaCommand implements Command {
 
     private static final String COMMAND_DESCRIPTION = "Send out messages to users without MFA";
 
@@ -23,6 +24,7 @@ public final class SendOutMessagesToUsersWithoutMfaCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String messageTemplateFilePath = ConsoleInputUtils.inputValue(MESSAGE_TEMPLATE_FILE_PATH_REQUEST);
         final String messageTemplate = FileReaderUtils.readMessageTemplate(messageTemplateFilePath);

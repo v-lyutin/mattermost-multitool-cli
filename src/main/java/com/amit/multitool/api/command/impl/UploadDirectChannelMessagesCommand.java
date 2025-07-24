@@ -6,13 +6,14 @@ import com.amit.multitool.usecase.UploadDirectChannelMessagesUseCase;
 import com.amit.multitool.utils.ConsoleInputUtils;
 import com.amit.multitool.utils.DateTimeUtils;
 import com.amit.multitool.utils.FileReaderUtils;
+import com.amit.multitool.utils.RequireMattermostCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public final class UploadDirectChannelMessagesCommand implements Command {
+public class UploadDirectChannelMessagesCommand implements Command {
 
     private static final String COMMAND_DESCRIPTION = "Receive direct channel messages included in the time range";
 
@@ -32,6 +33,7 @@ public final class UploadDirectChannelMessagesCommand implements Command {
     }
 
     @Override
+    @RequireMattermostCredentials
     public void execute() {
         final String subjectEmail = ConsoleInputUtils.inputValue(SUBJECT_EMAIL_REQUEST);
         final String recipientEmailsFilePath = ConsoleInputUtils.inputValue(RECIPIENT_EMAILS_FILE_PATH_REQUEST);
