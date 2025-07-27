@@ -22,7 +22,7 @@ public final class DateTimeUtils {
             final String userInput = ConsoleInputUtils.inputValue(prompt);
             final LocalDateTime dateTime = parseDateTime(userInput);
             return convertToEpochMillis(dateTime);
-        } catch (DateTimeParseException exception) {
+        } catch (final DateTimeParseException exception) {
             LOGGER.warn(exception.getMessage());
             return getDateTimeFromUser(prompt);
         }

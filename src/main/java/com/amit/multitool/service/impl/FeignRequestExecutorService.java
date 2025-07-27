@@ -26,10 +26,11 @@ public class FeignRequestExecutorService implements RequestExecutorService {
     }
 
     @Override
-    public <T> Optional<T> executeRequest(final Supplier<T> apiCall) {
+    public <T> Optional<T> executeRequest(final Supplier<T> apiCallSupplier) {
         try {
-            RateLimiter.waitForPermission(this.rateLimiter);
-            final T result = apiCall.get();
+            final T result = RateLimiter
+                    .decorateSupplier(rateLimiter, apiCallSupplier)
+                    .get();
             return Optional.ofNullable(result);
         } catch (final FeignException exception) {
             LOGGER.error("Request error: {}", exception.getMessage());

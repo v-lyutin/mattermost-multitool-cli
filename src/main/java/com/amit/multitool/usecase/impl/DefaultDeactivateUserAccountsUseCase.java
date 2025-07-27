@@ -4,6 +4,7 @@ import com.amit.multitool.domain.web.response.StatusResponse;
 import com.amit.multitool.service.MattermostApiV4ClientService;
 import com.amit.multitool.service.UserService;
 import com.amit.multitool.usecase.DeactivateUserAccountsUseCase;
+import com.amit.multitool.utils.BatchSchedulerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Component
 public final class DefaultDeactivateUserAccountsUseCase implements DeactivateUserAccountsUseCase {
@@ -31,7 +33,12 @@ public final class DefaultDeactivateUserAccountsUseCase implements DeactivateUse
 
     @Override
     public void deactivateUserAccounts(final List<String> emails) {
-        emails.forEach(email -> {
+        final Consumer<String> deactivateUserAccountConsumer = this.buildDeactivateUserAccountConsumer();
+        BatchSchedulerUtils.scheduleBatch(emails, deactivateUserAccountConsumer);
+    }
+
+    private Consumer<String> buildDeactivateUserAccountConsumer() {
+        return email -> {
             this.userService.findByEmail(email)
                     .ifPresentOrElse(
                             user -> {
@@ -43,7 +50,7 @@ public final class DefaultDeactivateUserAccountsUseCase implements DeactivateUse
                             },
                             () -> LOGGER.warn("User with email '{}' not found", email)
                     );
-        });
+        };
     }
 
 }
