@@ -32,7 +32,7 @@ public final class DefaultInviteUsersToTeamByEmailUseCase implements InviteUsers
         }
         emails.forEach(email -> {
                 final EmailsRequest emailsRequest = new EmailsRequest(List.of(email));
-                final Optional<StatusResponse> statusResponse = mattermostApiV4ClientService.inviteUsersToTeamByEmail(emailsRequest);
+                final Optional<StatusResponse> statusResponse = this.mattermostApiV4ClientService.inviteUsersToTeamByEmail(emailsRequest);
                 statusResponse.ifPresentOrElse(
                     response -> LOGGER.info("Successfully invited '{}' to team with status: {}", email, response.status()),
                     () -> LOGGER.warn("Failed to invite user with email '{}' to team", email)

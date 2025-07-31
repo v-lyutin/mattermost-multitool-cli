@@ -27,12 +27,12 @@ public final class DefaultDirectMessageSenderService implements DirectMessageSen
 
     @Override
     public void sendMessageToUser(final String senderId, final User receiver, final String messageTemplate) {
-        final Optional<ChannelResponse> channel = mattermostApiV4ClientService.createDirectMessageChannel(receiver.id(), senderId);
+        final Optional<ChannelResponse> channel = this.mattermostApiV4ClientService.createDirectMessageChannel(receiver.id(), senderId);
         if (channel.isEmpty()) {
             LOGGER.error("Failed to create DM channel for user: {}", receiver.email());
             return;
         }
-        final Optional<PostResponse> postResponse = mattermostApiV4ClientService.createPost(new PostRequest(channel.get().id(), messageTemplate));
+        final Optional<PostResponse> postResponse = this.mattermostApiV4ClientService.createPost(new PostRequest(channel.get().id(), messageTemplate));
         if (postResponse.isPresent()) {
             LOGGER.info("Message sent to user: {}", receiver.email());
             return;

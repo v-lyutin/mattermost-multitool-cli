@@ -43,15 +43,15 @@ public final class DefaultUploadDirectChannelMessagesUseCase implements UploadDi
                                                      final long endTimestamp) {
         this.userService.findByEmail(subjectEmail)
                 .ifPresentOrElse(
-                        subject -> getRecipients(recipientEmails).forEach(recipient -> createChannelAndGenerateReport(subject, recipient, startTimestamp, endTimestamp)),
-                        () -> LOGGER.error("Subject with email '{}' not found", subjectEmail)
+                        subject -> this.getRecipients(recipientEmails).forEach(recipient -> this.createChannelAndGenerateReport(subject, recipient, startTimestamp, endTimestamp)),
+                        () -> LOGGER.warn("Subject with email '{}' not found", subjectEmail)
                 );
     }
 
     private List<User> getRecipients(final List<String> recipientEmails) {
         return recipientEmails.stream()
                 .map(email -> {
-                    final Optional<User> user = userService.findByEmail(email);
+                    final Optional<User> user = this.userService.findByEmail(email);
                     if (user.isEmpty()) {
                         LOGGER.warn("User with email '{}' not found", email);
                     }

@@ -1,22 +1,25 @@
-package com.amit.multitool.usecase.impl;
+package com.amit.multitool.service.impl;
 
 import com.amit.multitool.domain.model.User;
 import com.amit.multitool.domain.web.response.UserResponse;
 import com.amit.multitool.mapper.MattermostModelMapper;
 import com.amit.multitool.service.MattermostApiV4ClientService;
+import com.amit.multitool.service.UserUploaderService;
 import com.amit.multitool.service.UserService;
-import com.amit.multitool.usecase.LoadAllTeamUsersUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
-@Component
-public final class DefaultLoadAllTeamUsersUseCase implements LoadAllTeamUsersUseCase {
+@Service
+public class DefaultUserUploaderService implements UserUploaderService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLoadAllTeamUsersUseCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUserUploaderService.class);
 
     private final MattermostApiV4ClientService mattermostApiV4ClientService;
 
@@ -25,9 +28,9 @@ public final class DefaultLoadAllTeamUsersUseCase implements LoadAllTeamUsersUse
     private final MattermostModelMapper mattermostModelMapper;
 
     @Autowired
-    public DefaultLoadAllTeamUsersUseCase(final MattermostApiV4ClientService mattermostApiClientService,
-                                          final UserService userService,
-                                          final MattermostModelMapper mattermostModelMapper) {
+    public DefaultUserUploaderService(final MattermostApiV4ClientService mattermostApiClientService,
+                                      final UserService userService,
+                                      final MattermostModelMapper mattermostModelMapper) {
         this.mattermostApiV4ClientService = mattermostApiClientService;
         this.userService = userService;
         this.mattermostModelMapper = mattermostModelMapper;
@@ -40,7 +43,7 @@ public final class DefaultLoadAllTeamUsersUseCase implements LoadAllTeamUsersUse
         int page = 0;
         final Map<String, User> loadedUsers = new HashMap<>();
         while (page < maxPages) {
-            final Optional<Set<UserResponse>> users = mattermostApiV4ClientService.getUsers(teamId, page);
+            final Optional<Set<UserResponse>> users = this.mattermostApiV4ClientService.getUsers(teamId, page);
             if (users.isEmpty()) {
                 break;
             }

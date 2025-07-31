@@ -29,7 +29,7 @@ public class FeignRequestExecutorService implements RequestExecutorService {
     public <T> Optional<T> executeRequest(final Supplier<T> apiCallSupplier) {
         try {
             final T result = RateLimiter
-                    .decorateSupplier(rateLimiter, apiCallSupplier)
+                    .decorateSupplier(this.rateLimiter, apiCallSupplier)
                     .get();
             return Optional.ofNullable(result);
         } catch (final FeignException exception) {
