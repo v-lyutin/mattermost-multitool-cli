@@ -1,5 +1,6 @@
 package com.amit.multitool.client;
 
+import com.amit.multitool.domain.web.request.ChannelSearchRequest;
 import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
@@ -16,6 +17,9 @@ public interface MattermostApiV4 {
 
     @RequestLine(value = "GET /api/v4/users?in_team={teamId}&page={page}")
     Set<UserResponse> getUsers(@Param(value = "teamId") String teamId, @Param(value = "page") Integer page);
+
+    @RequestLine(value = "POST /api/v4/channels/search")
+    ChannelSearchResponse searchChannels(ChannelSearchRequest channelSearchRequest);
 
     @RequestLine(value = "GET /api/v4/users/me")
     UserResponse getMe();

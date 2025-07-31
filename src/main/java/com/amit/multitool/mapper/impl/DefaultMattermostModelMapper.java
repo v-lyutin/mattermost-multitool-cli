@@ -1,7 +1,9 @@
 package com.amit.multitool.mapper.impl;
 
+import com.amit.multitool.domain.model.Channel;
 import com.amit.multitool.domain.model.Post;
 import com.amit.multitool.domain.model.User;
+import com.amit.multitool.domain.web.response.ChannelResponse;
 import com.amit.multitool.domain.web.response.PostResponse;
 import com.amit.multitool.domain.web.response.UserResponse;
 import com.amit.multitool.mapper.MattermostModelMapper;
@@ -44,6 +46,25 @@ public final class DefaultMattermostModelMapper implements MattermostModelMapper
                 userResponse.mfaActive(),
                 userResponse.nickname().equals("nMFA"),
                 userResponse.isActive()
+        );
+    }
+
+    @Override
+    public Channel toChannel(final ChannelResponse channelResponse) {
+        final String creatorUsername = this.userService.findById(channelResponse.creatorId())
+                .map(User::username)
+                .orElse("N/A");
+        return new Channel(
+                channelResponse.id(),
+                channelResponse.name(),
+                channelResponse.displayName(),
+                channelResponse.createAt(),
+                channelResponse.updateAt(),
+                creatorUsername,
+                channelResponse.teamDisplayName(),
+                channelResponse.totalPostCount(),
+                channelResponse.totalThreadCount(),
+                channelResponse.deleteAt() != 0
         );
     }
 

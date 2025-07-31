@@ -2,6 +2,7 @@ package com.amit.multitool.service.impl;
 
 import com.amit.multitool.client.MattermostClient;
 import com.amit.multitool.config.MattermostCredentials;
+import com.amit.multitool.domain.web.request.ChannelSearchRequest;
 import com.amit.multitool.domain.web.request.EmailsRequest;
 import com.amit.multitool.domain.web.request.PostRequest;
 import com.amit.multitool.domain.web.response.*;
@@ -40,6 +41,12 @@ public final class DefaultMattermostApiV4ClientService implements MattermostApiV
     @Override
     public Optional<Set<UserResponse>> getUsers(final String teamId, final int page) {
         return this.requestExecutorService.executeRequest(() -> this.mattermostClient.getApi().getUsers(teamId, page));
+    }
+
+    @Override
+    public Optional<ChannelSearchResponse> searchChannels(final String teamId, final int page) {
+        final ChannelSearchRequest channelSearchRequest = ChannelSearchRequest.getDefaultChannelSearchRequest(teamId, page);
+        return this.requestExecutorService.executeRequest(() -> this.mattermostClient.getApi().searchChannels(channelSearchRequest));
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface MattermostApiV4ClientService {
 
     Optional<Set<UserResponse>> getUsers(String teamId, int page);
 
+    Optional<ChannelSearchResponse> searchChannels(String teamId, int page);
+
     Optional<UserResponse> getMe();
 
     Optional<ChannelResponse> createDirectMessageChannel(String userId, String otherUserId);
